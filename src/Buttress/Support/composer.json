@@ -1,0 +1,30 @@
+{
+  "name": "buttress/support",
+  "description": "Buttress Support",
+  "type": "library",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0",
+    "buttress/atlas": "1.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Buttress\\Support\\": ""
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Korvin Szanto",
+      "email": "korvinszanto@gmail.com"
+    }
+  ],
+  "scripts": {
+    "test": "/usr/local/Cellar/php70/7.0.0-rc.1/bin/phpdbg -qrr vendor/bin/phpunit;"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    }
+  }
+}
