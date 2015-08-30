@@ -1,6 +1,6 @@
 {
-  "name": "buttress/framework",
-  "description": "Buttress Framework",
+  "name": "buttress/atlas",
+  "description": "Buttress Interfaces and Traits",
   "type": "library",
   "require": {
     "php": ">=7.0"
