@@ -8,6 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 interface MiddlewareMap
 {
 
-    public function __call(RequestInterface $request, ResponseInterface $response, Callable $next): ResponseInterface;
+    public function __invoke(RequestInterface $request, ResponseInterface $response, Callable $next);
 
 }
