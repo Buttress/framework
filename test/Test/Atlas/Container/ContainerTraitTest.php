@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Container;
+namespace Buttress\Test\Atlas\Container;
 
 use Buttress\Atlas\Container\ContainerMap;
 use Buttress\Support\Traits\Container\ContainerTrait;

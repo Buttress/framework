@@ -1,5 +1,5 @@
 <?php
-namespace Buttress\Logger\Test\Driver;
+namespace Buttress\Test\Logger\Driver;
 
 use Buttress\Logger\Driver\MonoLogDriver;
 use Monolog\Handler\TestHandler;

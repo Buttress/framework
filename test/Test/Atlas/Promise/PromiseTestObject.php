@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Promise;
+namespace Buttress\Test\Atlas\Promise;
 
 use Buttress\Atlas\Promise\PromiseMap;
 use Buttress\Support\Traits\Promise\PromiseTrait;

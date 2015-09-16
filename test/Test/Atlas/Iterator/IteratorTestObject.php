@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Iterator;
+namespace Buttress\Test\Atlas\Iterator;
 
 use Buttress\Atlas\Support\ArrayMap;
 use Buttress\Support\Traits\Iterator\IteratorTrait;

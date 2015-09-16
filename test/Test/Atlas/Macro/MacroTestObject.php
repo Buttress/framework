@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Macro;
+namespace Buttress\Test\Atlas\Macro;
 
 use Buttress\Support\Traits\Macro\MacroTrait;
 

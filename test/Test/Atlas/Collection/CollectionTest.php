@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Collection;
+namespace Buttress\Test\Atlas\Collection;
 
 use Buttress\Support\Traits\Collection\CollectionTrait;
 

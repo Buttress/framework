@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Iterator;
+namespace Buttress\Test\Atlas\Iterator;
 
 class IteratorTraitTest extends \PHPUnit_Framework_TestCase
 {

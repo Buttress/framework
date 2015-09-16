@@ -1,6 +1,6 @@
 <?php
 
-namespace Buttress\Atlas\Test\Pipeline;
+namespace Buttress\Test\Pipeline;
 
 use Buttress\Pipeline\Pipeline;
 

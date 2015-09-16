@@ -1,5 +1,5 @@
 <?php
-namespace Buttress\Atlas\Test\Macro;
+namespace Buttress\Test\Atlas\Macro;
 
 use Buttress\Atlas\Exception\BadMethodCallExceptionMap;
 
@@ -31,7 +31,7 @@ class MacroTraitTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($hit, 'Static macro accessed early.');
 
-        call_user_func(['\Buttress\Atlas\Test\Macro\MacroTestObject', $method]);
+        call_user_func(['\Buttress\Test\Atlas\Macro\MacroTestObject', $method]);
 
         $this->assertTrue($hit, 'Static macro accessor failed.');
     }

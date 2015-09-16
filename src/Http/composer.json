@@ -1,0 +1,34 @@
+{
+  "name": "buttress/pipeline",
+  "description": "Buttress Pipeline",
+  "type": "library",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0",
+    "buttress/atlas": "^1.0@dev",
+    "psr/http-message": "^1.0@dev"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/buttress/atlas"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Buttress\\Pipeline\\": ""
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Korvin Szanto",
+      "email": "korvinszanto@gmail.com"
+    }
+  ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    }
+  }
+}
