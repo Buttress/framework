@@ -33,7 +33,8 @@
   "replace": {
     "buttress/logger": "self.version",
     "buttress/atlas": "self.version",
-    "buttress/support": "self.version"
+    "buttress/support": "self.version",
+    "buttress/pipeline": "self.version"
   },
   "scripts": {
     "test": "/usr/local/Cellar/php70/7.0.0-rc.1/bin/phpdbg -qrr vendor/bin/phpunit;"
