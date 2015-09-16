@@ -1,6 +1,6 @@
 <?php
 
-namespace Atlas\Http\Middleware;
+namespace Buttress\Atlas\Http\Middleware;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;

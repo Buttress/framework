@@ -6,7 +6,6 @@ use Buttress\Http\RequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
-use Zend\Diactoros\Server;
 use Zend\Diactoros\ServerRequest;
 
 class RequestHandlerTest extends \PHPUnit_Framework_TestCase
@@ -23,7 +22,7 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
                     $request = $request->withAttribute('test', 'set');
                 }
 
-                $next($request, $response);
+                return $next($request, $response);
             }
         ];
 
@@ -31,29 +30,29 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
         $request_handler->setKernel(function(ServerRequestInterface $request, ResponseInterface $response, \Closure $next) {
             // We're in the middle of the onion, make sure that test is true.
             $this->assertEquals('set', $request->getAttribute('test'));
+
+            return $next($request, $response);
         });
 
         $request_handler->setMiddlewares($pipes);
+        list($request, $response) = $this->sendTestRequest($request_handler);
 
-        $this->sendTestRequest($request_handler, function(ServerRequest $request, ResponseInterface $response) {
-            // We're on the response side of the onion now, make sure test is 'unset'
-            $this->assertEquals('unset', $request->getAttribute('test'));
-        });
+        $this->assertEquals('unset', $request->getAttribute('test'));
     }
 
-    public function sendTestRequest(RequestHandler $request_handler, \Closure $handler)
+    public function sendTestRequest(RequestHandler $request_handler)
     {
         $request = new ServerRequest();
         $response = new Response();
 
-        $request_handler->handleRequest($request, $response, $handler);
+        return $request_handler->handleRequest($request, $response);
     }
 
     public function testEmptyExecution()
     {
-        $this->sendTestRequest(new RequestHandler(), function(ServerRequestInterface $request) {
-            $this->assertTrue($request->getAttribute('buttress.dispatched'));
-        });
+        list($request, $response) = $this->sendTestRequest(new RequestHandler());
+        $this->assertTrue($request->getAttribute('buttress.dispatched'));
+        $this->assertEquals(204, $response->getStatusCode());
     }
 
 }
