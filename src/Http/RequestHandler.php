@@ -82,7 +82,7 @@ class RequestHandler
         $stack = array_merge(array_values($middleware), [$kernel], array_reverse($middleware));
 
         return (new Pipeline())
-            ->pipe($request, $response)
+            ->send($request, $response)
             ->through($stack)
             ->then(function ($request, ResponseInterface $response) {
                 if ($response->getBody()->getSize() == 0 && $response->getStatusCode() == 200) {

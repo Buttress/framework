@@ -1,6 +1,6 @@
 {
-  "name": "buttress/pipeline",
-  "description": "Buttress Pipeline",
+  "name": "buttress/http",
+  "description": "Buttress PSR-7 HTTP component",
   "type": "library",
   "minimum-stability": "dev",
   "require": {
@@ -16,7 +16,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Buttress\\Pipeline\\": ""
+      "Buttress\\Http\\": ""
     }
   },
   "license": "MIT",
