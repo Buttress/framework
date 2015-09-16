@@ -28,7 +28,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
             }
         ];
 
-        (new Pipeline())->pipe([])->through($pipes)->then(function($result) {
+        (new Pipeline())->send([])->through($pipes)->then(function($result) {
             $this->assertEquals([1,2,3,4], $result);
         })->execute();
     }
@@ -58,7 +58,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
             }
         ];
 
-        (new Pipeline())->pipe([], [])->through($pipes)->then(function($first, $second) {
+        (new Pipeline())->send([], [])->through($pipes)->then(function($first, $second) {
             $this->assertEquals([1,2,3,4], $first);
             $this->assertEquals(['a','b','c','d'], $second);
         })->execute();

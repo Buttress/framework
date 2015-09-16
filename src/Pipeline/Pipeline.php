@@ -18,38 +18,53 @@ class Pipeline implements PipelineMap
     protected $pipes = [];
 
     /**
-     * @type \Closure The reduced closure
+     * @type \Closure The "then" closure, it will receive the parameters you pipe through
      */
-    protected $linkedClosure;
+    protected $thenClosure;
 
-    public function pipe(...$parameters) : PipelineMap
+    /**
+     * @inheritdoc
+     */
+    public function send(...$parameters) : PipelineMap
     {
         $this->parameters = $parameters;
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function through($pipes) : PipelineMap
     {
         $this->pipes = is_array($pipes) ? $pipes : func_get_args();
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function then(callable $then) : PipelineMap
     {
-        $pipes = array_reverse($this->pipes);
-        $this->linkedClosure = array_reduce($pipes, $this->getIterator(), $this->getInitial($then));
+        $this->then = $then;
 
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute()
     {
-        $linked_closure = $this->linkedClosure;
+        $pipes = array_reverse($this->pipes);
+
+        /** @type \Closure $linked_closure */
+        $linked_closure = array_reduce($pipes, $this->getIterator(), $this->getInitial($then));
 
         return $linked_closure(...$this->parameters);
     }
 
     /**
+     * Get the iterator closure, this wraps every item in the list and injects the
      * @return \Closure
      */
     protected function getIterator() : \Closure
@@ -62,6 +77,9 @@ class Pipeline implements PipelineMap
         };
     }
 
+    /**
+     * The initial closure,
+     */
     protected function getInitial(\Closure $then)
     {
         return function(...$parameters) use ($then) {
