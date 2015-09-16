@@ -12,19 +12,19 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         $pipes = [
             function($array, $next) {
                 $array[] = 1;
-                $next($array);
+                return $next($array);
             },
             function($array, $next) {
                 $array[] = 2;
-                $next($array);
+                return $next($array);
             },
             function($array, $next) {
                 $array[] = 3;
-                $next($array);
+                return $next($array);
             },
             function($array, $next) {
                 $array[] = 4;
-                $next($array);
+                return $next($array);
             }
         ];
 
@@ -33,30 +33,28 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         })->execute();
     }
 
-
-
     public function testMultipleParameterPipeline()
     {
         $pipes = [
             function($first, $second, $next) {
                 $first[] = 1;
                 $second[] = 'a';
-                $next($first, $second);
+                return $next($first, $second);
             },
             function($first, $second, $next) {
                 $first[] = 2;
                 $second[] = 'b';
-                $next($first, $second);
+                return $next($first, $second);
             },
             function($first, $second, $next) {
                 $first[] = 3;
                 $second[] = 'c';
-                $next($first, $second);
+                return $next($first, $second);
             },
             function($first, $second, $next) {
                 $first[] = 4;
                 $second[] = 'd';
-                $next($first, $second);
+                return $next($first, $second);
             }
         ];
 
@@ -64,6 +62,34 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals([1,2,3,4], $first);
             $this->assertEquals(['a','b','c','d'], $second);
         })->execute();
+    }
+
+    public function testReturnPath()
+    {
+        $pipes = [
+            function($next) {
+                return $next();
+            },
+            function($next) {
+                return $next();
+            },
+            function($next) {
+                return "breakout";
+            },
+            function($next) {
+                return "This shouldn't be triggered.";
+            }
+        ];
+
+        $triggered = false;
+        $result = (new Pipeline())->through($pipes)->then(function() use (&$triggered) {
+            $triggered = true;
+
+            return false;
+        })->execute();
+
+        $this->assertFalse($triggered, 'The then function fired.');
+        $this->assertEquals($result, 'breakout');
     }
 
 }
