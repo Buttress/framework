@@ -3,22 +3,24 @@
   "description": "Buttress Framework",
   "type": "library",
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.0",
+    "monolog/monolog": "^1.17",
+    "psr/log": "^1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^4.8"
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "Buttress\\": "src/"
     },
     "files": [
-      "src/Buttress/Support/helpers.php"
+      "src/Support/helpers.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "": "test/"
+      "Buttress\\": "test/"
     }
   },
   "license": "MIT",
@@ -29,6 +31,7 @@
     }
   ],
   "replace": {
+    "buttress/logger": "self.version",
     "buttress/atlas": "self.version",
     "buttress/support": "self.version"
   },

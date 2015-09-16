@@ -12,10 +12,19 @@ trait ContainerTrait
 
     /**
      * Retrieve a value named `$item` from the container
-     * @param $name
+     * @param $item
      * @return mixed
      */
     public function get($item)
+    {
+        return $this->containerGet($item);
+    }
+
+    /**
+     * Internal getter
+     * @param $item
+     */
+    protected function containerGet($item)
     {
         return $this->container_map[$item];
     }
@@ -26,6 +35,16 @@ trait ContainerTrait
      * @param $value
      */
     public function set($item, $value)
+    {
+        $this->containerSet($item, $value);
+    }
+
+    /**
+     * Internal getter
+     * @param $item
+     * @param $value
+     */
+    protected function containerSet($item, $value)
     {
         $this->container_map[$item] = $value;
         if (is_null($value)) {
@@ -40,6 +59,16 @@ trait ContainerTrait
      */
     public function has($item): bool
     {
+        return $this->containerHas($item);
+    }
+
+    /**
+     * Internal Has
+     * @param $item
+     * @return bool
+     */
+    protected function containerHas($item): bool
+    {
         return isset($this->container_map[$item]);
     }
 
@@ -53,7 +82,12 @@ trait ContainerTrait
 
     public function toArray(): array
     {
-        return $this->container_map;
+        return $this->containerToArray();
+    }
+
+    protected function containerToArray(): array
+    {
+        return (array) $this->container_map;
     }
 
     /**
@@ -117,6 +151,5 @@ trait ContainerTrait
     {
         $this->set($offset, null);
     }
-
 
 }

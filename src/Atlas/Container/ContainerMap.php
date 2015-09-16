@@ -1,5 +1,4 @@
 <?php
-
 namespace Buttress\Atlas\Container;
 
 interface ContainerMap extends \ArrayAccess, \Iterator
@@ -10,14 +9,7 @@ interface ContainerMap extends \ArrayAccess, \Iterator
      * @param $name
      * @return mixed
      */
-    public function get($item);
-
-    /**
-     * Set `$item` to `$value` in the container
-     * @param $item
-     * @param $value
-     */
-    public function set($item, $value);
+    public function get($item)/*: mixed */;
 
     /**
      * Returns `true` if container contains item `$name`

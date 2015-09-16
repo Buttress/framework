@@ -1,0 +1,29 @@
+{
+  "name": "buttress/logger",
+  "description": "Buttress Logger",
+  "type": "library",
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=7.0",
+    "buttress/support": "1.0.0",
+    "monolog/monolog": "^1.17",
+    "psr/log": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Buttress\\Logger\\": ""
+    }
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Korvin Szanto",
+      "email": "korvinszanto@gmail.com"
+    }
+  ],
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.0-dev"
+    }
+  }
+}

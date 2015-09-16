@@ -1,5 +1,4 @@
 <?php
-
 namespace Buttress\Atlas\Collection;
 
 use Buttress\Atlas\Support\ArrayMap;
@@ -13,7 +12,7 @@ interface CollectionMap extends \Iterator, \Countable, ArrayMap
      * @param $mixed
      * @return void
      */
-    public function add($mixed);
+    public function add($mixed)/*: void */;
 
     /**
      * Add all items in an array
@@ -21,7 +20,7 @@ interface CollectionMap extends \Iterator, \Countable, ArrayMap
      * @param mixed[] $mixed_array
      * @return void
      */
-    public function addAll(array $mixed_array);
+    public function addAll(array $mixed_array)/*: void */;
 
     /**
      * Returns `true` if collection contains `$mixed`
@@ -45,7 +44,7 @@ interface CollectionMap extends \Iterator, \Countable, ArrayMap
      * @param $mixed
      * @return void
      */
-    public function remove($mixed);
+    public function remove($mixed)/*: void */;
 
     /**
      * Remove all occurrences of all items in `$mixed_array`
@@ -60,6 +59,5 @@ interface CollectionMap extends \Iterator, \Countable, ArrayMap
      * @return int
      */
     public function count(): int;
-
 
 }
