@@ -45,7 +45,7 @@ class Pipeline implements PipelineMap
      */
     public function then(callable $then) : PipelineMap
     {
-        $this->then = $then;
+        $this->thenClosure = $then;
 
         return $this;
     }
@@ -58,7 +58,7 @@ class Pipeline implements PipelineMap
         $pipes = array_reverse($this->pipes);
 
         /** @type \Closure $linked_closure */
-        $linked_closure = array_reduce($pipes, $this->getIterator(), $this->getInitial($then));
+        $linked_closure = array_reduce($pipes, $this->getIterator(), $this->getInitial($this->thenClosure));
 
         return $linked_closure(...$this->parameters);
     }
@@ -78,9 +78,10 @@ class Pipeline implements PipelineMap
     }
 
     /**
-     * The initial closure,
+     * The initial closure
+     * @return \Closure
      */
-    protected function getInitial(\Closure $then)
+    protected function getInitial(\Closure $then) : \Closure
     {
         return function(...$parameters) use ($then) {
             return $then(...$parameters);

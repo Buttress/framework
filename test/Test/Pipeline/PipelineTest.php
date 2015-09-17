@@ -9,28 +9,47 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
 
     public function testSingleParameterPipeline()
     {
+        $pipeline = [];
+
         $pipes = [
-            function($array, $next) {
+            function($array, $next) use (&$pipeline) {
+                $pipeline[] = 'Pipe 1';
+
                 $array[] = 1;
                 return $next($array);
             },
-            function($array, $next) {
+            function($array, $next) use (&$pipeline) {
+                $pipeline[] = 'Pipe 2';
+
                 $array[] = 2;
                 return $next($array);
             },
-            function($array, $next) {
+            function($array, $next) use (&$pipeline) {
+                $pipeline[] = 'Pipe 3';
+
                 $array[] = 3;
                 return $next($array);
             },
-            function($array, $next) {
+            function($array, $next) use (&$pipeline) {
+                $pipeline[] = 'Pipe 4';
+
                 $array[] = 4;
                 return $next($array);
             }
         ];
 
-        (new Pipeline())->send([])->through($pipes)->then(function($result) {
+        (new Pipeline())->send([])->through($pipes)->then(function($result) use (&$pipeline) {
+            $pipeline[] = 'Then';
             $this->assertEquals([1,2,3,4], $result);
         })->execute();
+
+        $this->assertEquals([
+            'Pipe 1',
+            'Pipe 2',
+            'Pipe 3',
+            'Pipe 4',
+            'Then'
+        ], $pipeline);
     }
 
     public function testMultipleParameterPipeline()

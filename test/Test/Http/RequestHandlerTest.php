@@ -2,6 +2,7 @@
 
 namespace Test\Http;
 
+use Buttress\Http\Kernel;
 use Buttress\Http\RequestHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,31 +14,72 @@ class RequestHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testKernelOrder()
     {
-        $counts = [];
+        $onion = [];
         $pipes = [
-            function(ServerRequestInterface $request, ResponseInterface $response, \Closure $next) use ($counts) {
-                if ($request->getAttribute('test')) {
-                    $request = $request->withAttribute('test', 'unset');
-                } else {
-                    $request = $request->withAttribute('test', 'set');
+            function (ServerRequestInterface $request, ResponseInterface $response, \Closure $next) use (&$onion) {
+                $onion[] = 'Middleware 1';
+
+                if ($request->getAttribute('buttress.dispatched')) {
+                    // This should be called sixth
+                    $this->assertEquals(5, $request->getAttribute('test'));
+                    return $next($request->withAttribute('test', 6), $response);
+                }
+                // This should be called first
+                $this->assertNull($request->getAttribute('test'));
+                return $next($request->withAttribute('test', 1), $response);
+            },
+            function (ServerRequestInterface $request, ResponseInterface $response, \Closure $next) use (&$onion) {
+                $onion[] = 'Middleware 2';
+
+                if ($request->getAttribute('buttress.dispatched')) {
+                    // This should be called fifth
+                    $this->assertEquals(4, $request->getAttribute('test'));
+                    return $next($request->withAttribute('test', 5), $response);
                 }
 
-                return $next($request, $response);
-            }
+                // This should be called second
+                $this->assertEquals(1, $request->getAttribute('test'));
+                return $next($request->withAttribute('test', 2), $response);
+            },
+            function (ServerRequestInterface $request, ResponseInterface $response, \Closure $next) use (&$onion) {
+                $onion[] = 'Middleware 3';
+
+                if ($request->getAttribute('buttress.dispatched')) {
+                    // This should be called fourth
+                    $this->assertEquals(3, $request->getAttribute('test'), 'Third layer on the way out is off.');
+                    return $next($request->withAttribute('test', 4), $response);
+                }
+
+                // This should be called third
+                $this->assertEquals(2, $request->getAttribute('test'));
+                return $next($request->withAttribute('test', 3), $response);
+            },
         ];
 
         $request_handler = new RequestHandler();
-        $request_handler->setKernel(function(ServerRequestInterface $request, ResponseInterface $response, \Closure $next) {
+        $request_handler->setKernel(function (ServerRequestInterface $request, ResponseInterface $response, \Closure $next) use (&$onion) {
             // We're in the middle of the onion, make sure that test is true.
-            $this->assertEquals('set', $request->getAttribute('test'));
+            $this->assertEquals(3, $request->getAttribute('test'), 'Kernel is off');
 
-            return $next($request, $response);
+            $onion[] = 'Kernel';
+
+            $kernel = new Kernel();
+            return $kernel($request, $response, $next);
         });
 
         $request_handler->setMiddlewares($pipes);
         list($request, $response) = $this->sendTestRequest($request_handler);
 
-        $this->assertEquals('unset', $request->getAttribute('test'));
+        $this->assertEquals(6, $request->getAttribute('test'));
+        $this->assertEquals([
+            'Middleware 1',
+            "Middleware 2",
+            "Middleware 3",
+            "Kernel",
+            "Middleware 3",
+            "Middleware 2",
+            "Middleware 1"],
+            $onion);
     }
 
     public function sendTestRequest(RequestHandler $request_handler)
