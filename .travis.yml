@@ -4,4 +4,4 @@ php:
   - 7
   - hhvm
 
-script: phpdbg -rr ./bin/phpunit
+script: phpdbg -rr ./vendor/bin/phpunit
