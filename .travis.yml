@@ -2,6 +2,7 @@ language: php
 
 php:
   - 7
-  - hhvm
 
-script: phpdbg -rr phpunit
+script:
+  - composer install
+  - phpdbg -rr ./vendor/bin/phpunit
