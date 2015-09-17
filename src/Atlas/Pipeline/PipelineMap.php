@@ -13,7 +13,7 @@ interface PipelineMap
 
     /**
      * The list of pipes that the parameters will fall through
-     * Pipe should match function($parameter..., \Closure $next) {}
+     * Pipe should match function($parameter..., \Closure $next) {}: $next($parameter...)
      *
      * @param \Closure[] $pipes
      * @return \Buttress\Atlas\Pipeline\PipelineMap
